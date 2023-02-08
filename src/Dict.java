@@ -2,11 +2,14 @@ import java.io.*;
 import java.util.*;
 
 public class Dict {
+    static String Eng = "Eng";
+    static String Num = "Num";
+    static String path = "dictionaries\\";
     static Map<String, String> en = new LinkedHashMap<>();
 
     // delete text
-    static public void deleteByKey(String key) throws IOException{
-        try (BufferedReader fileReader = new BufferedReader(new FileReader("Eng"));
+    static public void deleteByKey(String dict, String key) throws IOException{
+        try (BufferedReader fileReader = new BufferedReader(new FileReader(path + dict));
              Scanner scanner = new Scanner(fileReader)) {
             while (scanner.hasNext()) {
                 String line = scanner.next();
@@ -15,7 +18,7 @@ public class Dict {
             }
         }
 
-        FileOutputStream Eng = new FileOutputStream("Eng", false);
+        FileOutputStream Eng = new FileOutputStream(path + dict, false);
         PrintWriter pw = new PrintWriter(Eng);
         Set<String> set = en.keySet();
         for (String s : set) {
@@ -25,11 +28,11 @@ public class Dict {
     }
 
     // add text
-    static public void Add(String key, String res) throws FileNotFoundException {
+    static public void Add(String dict, String key, String res) throws FileNotFoundException {
         en.putIfAbsent(key, res);
 
         //add text to the file from the collection
-        FileOutputStream Eng = new FileOutputStream("Eng", true);
+        FileOutputStream Eng = new FileOutputStream(path + dict, true);
         PrintWriter pw = new PrintWriter(Eng);
         Set<String> set = en.keySet();
         for (String s : set) {
@@ -46,9 +49,9 @@ public class Dict {
     }
 
     //search for the key-value
-    static public List<String> searchByKey(String key) throws IOException {
+    static public List<String> searchByKey(String dict, String key) throws IOException {
         List<String> result = new ArrayList<>();
-        try (BufferedReader fileReader = new BufferedReader(new FileReader("Eng"));
+        try (BufferedReader fileReader = new BufferedReader(new FileReader(path + dict));
              Scanner scanner = new Scanner(fileReader)) {
             while (scanner.hasNext()) {
                 String line = scanner.next();
