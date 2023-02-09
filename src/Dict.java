@@ -1,14 +1,17 @@
 import java.io.*;
 import java.util.*;
+import java.util.regex.Pattern;
 
 public class Dict {
     static String Eng = "Eng";
     static String Num = "Num";
     static String path = "dictionaries\\";
+    static Pattern patEng = Pattern.compile("[a-zA-Z]{4}");
+    static Pattern patNum = Pattern.compile("[0-9]{5}");
     static Map<String, String> en = new LinkedHashMap<>();
 
     // delete text
-    static public void deleteByKey(String dict, String key) throws IOException{
+    static public void deleteByKey(String dict, String key) throws IOException {
         try (BufferedReader fileReader = new BufferedReader(new FileReader(path + dict));
              Scanner scanner = new Scanner(fileReader)) {
             while (scanner.hasNext()) {
@@ -44,7 +47,11 @@ public class Dict {
     //print the key-value
     static public void printRes(List<String> result) {
         System.out.println("Результат поиска: ");
-        result.stream().forEach(System.out::println);
+        if (result.isEmpty()) {
+            System.out.println("Ключ не нашелся");
+        } else {
+            result.stream().forEach(System.out::println);
+        }
         System.out.println();
     }
 
