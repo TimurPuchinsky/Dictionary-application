@@ -4,7 +4,6 @@ import java.util.*;
 public class Dict {
     static Map<String, String> en = new LinkedHashMap<>();
 
-    // delete text
     static public void deleteByKey(String dict, String key) throws IOException {
         try (BufferedReader fileReader = new BufferedReader(new FileReader(Command.path + dict));
              Scanner scanner = new Scanner(fileReader)) {
@@ -21,10 +20,10 @@ public class Dict {
         for (String s : set) {
             pw.println(s + "" + en.get(s));
         }
+        en.clear();
         pw.close();
     }
 
-    // add text
     static public void Add(String dict, String key, String res) throws FileNotFoundException {
         en.putIfAbsent(key, res);
 
@@ -35,10 +34,10 @@ public class Dict {
         for (String s : set) {
             pw.println(s + "-" + en.get(s));
         }
+        en.clear();
         pw.close();
     }
 
-    //print the key-value
     static public void printRes(List<String> result) {
         System.out.println();
         System.out.println("Результат поиска: ");
@@ -50,7 +49,6 @@ public class Dict {
         System.out.println();
     }
 
-    //search for the key-value
     static public List<String> searchByKey(String dict, String key) throws IOException {
         List<String> result = new ArrayList<>();
         try (BufferedReader fileReader = new BufferedReader(new FileReader(Command.path + dict));
@@ -62,5 +60,31 @@ public class Dict {
             }
         }
         return result;
+    }
+
+    static public void exist(String dict) throws IOException {
+        if (dict.equals(Command.Eng)) {
+            File file = new File(Command.path + Command.Eng);
+            if (!file.exists()) {
+                file.createNewFile();
+            }
+        } else if (dict.equals(Command.Num)) {
+            File file = new File(Command.path + Command.Num);
+            if (!file.exists()) {
+                file.createNewFile();
+            }
+        } else {
+            System.out.println("Ошибка выбора");
+        }
+    }
+
+    static public void show(String dict) throws IOException {
+        FileInputStream input = new FileInputStream(Command.path + dict);
+        int i = -1;
+        while ((i = input.read()) != -1) {
+            System.out.print((char) i);
+        }
+        input.close();
+        System.out.println();
     }
 }
