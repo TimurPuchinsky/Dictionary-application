@@ -1,6 +1,5 @@
 package pack.pattern;
 
-
 public class PatSwitch {
     private final PatMethod patMethod;
 

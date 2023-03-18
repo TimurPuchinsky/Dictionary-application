@@ -7,13 +7,12 @@ public class Dict {
     static Map<String, List<String>> en = new HashMap<>();
 
     public void readFile(String dict) throws IOException {
-        try (BufferedReader fileReader = new BufferedReader(new FileReader(DictString.path + dict));
+        try (BufferedReader fileReader = new BufferedReader(new FileReader(DictPath.path + dict));
              Scanner scanner = new Scanner(fileReader)) {
             while (scanner.hasNext()) {
                 List<String> list = new ArrayList<>();
                 String line = scanner.next();
-                String line2 = line.replaceAll("[\\[|\\] ]", "");
-                String[] words = line2.split("-");
+                String[] words = line.split("-");
                 list.add(words[1]);
                 en.put(words[0], list);
             }
@@ -22,10 +21,8 @@ public class Dict {
 
     public void show() {
         System.out.println();
-        Set<String> set = en.keySet();
-        for (String s : set) {
-            System.out.println(s + "-" + en.get(s).toString().replaceAll("[\\[|\\] ]", ""));
-        }
+        for (var s : en.entrySet())
+            System.out.println(s.getKey() + "-" + String.join(",", s.getValue()));
     }
 
     public void deleteByKey(String key) {
@@ -36,25 +33,19 @@ public class Dict {
         en.clear();
     }
 
-    public static void Add(String key, String res) {
-        List<String> list = new ArrayList<>();
+    public static void Add(String key, String value) {
         if (en.containsKey(key)) {
-            list = en.get(key);
-            list.add(res);
-            en.replace(key, list);
+            var list = en.get(key);
+            if (list.toString().contains(value)) {
+                en.replace(key, list);
+            } else {
+                list.add(value);
+                en.replace(key, list);
+            }
         } else {
-            list.add(res);
+            List<String> list = new ArrayList<>();
+            list.add(value);
             en.put(key, list);
-        }
-    }
-
-    public void printRes(List<String> result) {
-        System.out.println();
-        System.out.println("Результат поиска: ");
-        if (result == null) {
-            System.out.println("Ключ не нашелся");
-        } else {
-            result.forEach(System.out::println);
         }
     }
 
@@ -69,11 +60,10 @@ public class Dict {
     }
 
     public void printFile(String dict) throws FileNotFoundException {
-        FileOutputStream Eng = new FileOutputStream(DictString.path + dict, false);
+        FileOutputStream Eng = new FileOutputStream(DictPath.path + dict, false);
         PrintWriter pw = new PrintWriter(Eng);
-        Set<String> set = en.keySet();
-        for (String s : set)
-            pw.println(s + "-" + en.get(s).toString().replaceAll("[\\[|\\] ]", ""));
+        for (var s : en.entrySet())
+            pw.println(s.getKey() + "-" + String.join(",", s.getValue()));
         pw.close();
     }
 }

@@ -1,17 +1,17 @@
 package pack.pattern;
 
-import pack.pattern.rules.Rule;
-
+import pack.console.Console;
 
 public class EngPattern implements PatMethod {
     private final Patterns pattern;
-    private final Rule rule1 = new Rule();
+    private final Console rule = new Console();
+
     public EngPattern(Patterns pat) {
         this.pattern = pat;
     }
 
     @Override
     public void execute() {
-        rule1.ruleWithPattern(pattern.patEng(), pattern.patEngString);
+        rule.ruleWithPattern(pattern.patEng(), pattern.patTrans(), pattern.patEngString);
     }
 }

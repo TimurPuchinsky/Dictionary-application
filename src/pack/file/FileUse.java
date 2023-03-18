@@ -1,21 +1,26 @@
 package pack.file;
 
-import pack.dictionary.DictString;
+import pack.dictionary.DictPath;
 
 import java.io.*;
 
 public class FileUse {
 
-    public void exist(String dict) throws IOException {
-        File file = new File(DictString.path + dict);
+    public boolean exist(String dict) throws IOException {
+        File file = new File(DictPath.path + dict);
         if (!file.exists()) {
-            file.createNewFile();
+            return file.createNewFile();
+        } else {
+            return false;
         }
     }
-    public void deleteFile(String dict) throws IOException{
-        File file = new File(DictString.path + dict);
+
+    public boolean deleteFile(String dict) throws IOException {
+        File file = new File(DictPath.path + dict);
         if (file.exists()) {
-            file.delete();
+            return file.delete();
+        } else {
+            return false;
         }
     }
 }
